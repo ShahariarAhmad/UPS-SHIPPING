@@ -6,4 +6,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/create-shipment', [ShipmentController::class, 'create_shipment']);
+Route::get('/create-shipment', [ShipmentController::class, 'create_shipment'])->name('home');
