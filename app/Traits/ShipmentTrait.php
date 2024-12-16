@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 trait ShipmentTrait
 {
-    // Step 1: Get OAuth2 Token
+    
     public function getOAuthToken()
     {
         // Check if token exists in session and is still valid
@@ -67,7 +67,7 @@ trait ShipmentTrait
 
 
 
-    // Step 2: Create Shipment Request
+
     public function createShipment()
     {
         // Shipper Information
@@ -101,7 +101,7 @@ trait ShipmentTrait
         $serviceDescription = "Ground Service";
 
 
-        // return $this->getOAuthToken();
+     
         // Get the OAuth2 token
         $accessToken = $this->getOAuthToken();
         // If token retrieval failed, return the error response
@@ -109,57 +109,58 @@ trait ShipmentTrait
             return response()->json($accessToken, 500); // Handle the token error
         }
         $package1 = [
-            "Description" => "Package 00012",  // Replace with actual description
+            "Description" => "Package 00012",  
             "Packaging" => [
-                "Code" => "02",  // Replace with actual packaging code
-                "Description" => "Custom Box"  // Replace with actual packaging description
+                "Code" => "02",  
+                "Description" => "Custom Box"  
             ],
             "Dimensions" => [
                 "UnitOfMeasurement" => [
-                    "Code" => "CM",  // Replace with actual unit code (e.g., CM for centimeters)
-                    "Description" => "Centimeters"  // Replace with actual unit description
+                    "Code" => "CM",  
+                    "Description" => "Centimeters"  
                 ],
-                "Length" => '10',  // Replace with actual length (in centimeters)
-                "Width" => '10',   // Replace with actual width (in centimeters)
-                "Height" => '10'   // Replace with actual height (in centimeters)
+                "Length" => '10',  
+                "Width" => '10',   
+                "Height" => '10'   
             ],
             "PackageWeight" => [
                 "UnitOfMeasurement" => [
-                    "Code" => "KGS",  // Replace with actual weight unit code (e.g., KGS for kilograms)
-                    "Description" => "Kilograms"  // Replace with actual weight unit description
+                    "Code" => "KGS",  
+                    "Description" => "Kilograms"  
                 ],
-                "Weight" => '5'  // Replace with actual weight (in kilograms)
+                "Weight" => '5'  
             ]
         ];
 
         $package2 = [
-            "Description" => "Package 0062",  // Replace with actual description
+            "Description" => "Package 0062",  
             "Packaging" => [
-                "Code" => "02",  // Replace with actual packaging code
-                "Description" => "Custom Box"  // Replace with actual packaging description
+                "Code" => "02",  
+                "Description" => "Custom Box"  
             ],
             "Dimensions" => [
                 "UnitOfMeasurement" => [
-                    "Code" => "CM",  // Replace with actual unit code (e.g., CM for centimeters)
-                    "Description" => "Centimeters"  // Replace with actual unit description
+                    "Code" => "CM",  
+                    "Description" => "Centimeters"  
                 ],
-                "Length" => '12',  // Replace with actual length (in centimeters)
-                "Width" => '8',    // Replace with actual width (in centimeters)
-                "Height" => '6'    // Replace with actual height (in centimeters)
+                "Length" => '12',  
+                "Width" => '8',    
+                "Height" => '6'    
             ],
             "PackageWeight" => [
                 "UnitOfMeasurement" => [
-                    "Code" => "KGS",  // Replace with actual weight unit code (e.g., KGS for kilograms)
-                    "Description" => "Kilograms"  // Replace with actual weight unit description
+                    "Code" => "KGS",  
+                    "Description" => "Kilograms"  
                 ],
-                "Weight" => '6'  // Replace with actual weight (in kilograms)
+                "Weight" => '6'  
             ]
         ];
 
         // Now, put all packages into an array
         $packages = [$package1, $package2];
-        // when using real form data value comment the abobe code and uncomment the line of code below.
-        // $packages = [$request->toArray()]; 
+        // When using real form data, comment out the code above and replace it with the line below to use the provided request data.
+        // $packages = $request->toArray();
+
 
         // Prepare the shipment data for UPS API
 
@@ -233,13 +234,8 @@ trait ShipmentTrait
         // Check if the shipment creation was successful
         if ($response->successful()) {
             return $this->handleShipmentResponse($response->json());
-            return response()->json($response->json());
         } else {
-            // Log error for debugging
-            Log::error('Shipment Creation Error', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+
             return response()->json(['error' => 'Error creating shipment: ' . $response->body()], 500);
         }
     }
